@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Confession</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Pacifico', cursive;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffd1dc, #ffe4e1);
+      color: #333;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cute-shape {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: #ff4d6d;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: floatShape 10s linear infinite;
+    }
+
+    .cute-sticker {
+      position: absolute;
+      width: 80px;
+      opacity: 0.6;
+      animation: floatSticker 15s linear infinite;
+    }
+
+    @keyframes floatShape {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      50% { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(20vw); opacity: 0; }
+    }
+
+    @keyframes floatSticker {
+      0% { transform: translateY(100vh) rotate(0deg); }
+      50% { transform: rotate(15deg); }
+      100% { transform: translateY(-20vh) rotate(-15deg); }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      max-width: 500px;
+      text-align: center;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      z-index: 2;
+    }
+
+    input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      width: 80%;
+    }
+
+    button {
+      background: #ff4d6d;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      font-family: 'Pacifico', cursive;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e63950;
+      transform: scale(1.05);
+    }
+
+    .line {
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      font-family: 'Fira Code', monospace;
+      font-size: 16px;
+      color: #ff4d6d;
+      text-align: left;
+    }
+
+    #typing {
+      border-right: 2px solid #ff4d6d;
+      padding-right: 2px;
+      display: inline;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { border-color: #ff4d6d; }
+      25%, 75% { border-color: transparent; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating cute shapes and stickers -->
+  <script>
+    for (let i = 0; i < 50; i++) {
+      const shape = document.createElement('div');
+      shape.classList.add('cute-shape');
+      shape.style.left = Math.random() * 100 + 'vw';
+      shape.style.width = shape.style.height = (5 + Math.random() * 15) + 'px';
+      shape.style.animationDuration = (5 + Math.random() * 10) + 's';
+      document.body.appendChild(shape);
+    }
+
+    for (let i = 0; i < 5; i++) {
+      const sticker = document.createElement('img');
+      sticker.src = 'https://cdn-icons-png.flaticon.com/512/833/833472.png';
+      sticker.classList.add('cute-sticker');
+      sticker.style.left = Math.random() * 80 + 'vw';
+      sticker.style.animationDuration = (10 + Math.random() * 10) + 's';
+      document.body.appendChild(sticker);
+    }
+  </script>
+
+  <!-- Login Container -->
+  <div class="container" id="login-container">
+    <h2>Enter Passcode to View Confession</h2>
+    <input type="password" id="passcode" placeholder="Enter passcode">
+    <br>
+    <button onclick="checkPasscode()">Submit</button>
+    <p id="error" style="color:red; display:none; margin-top:10px;">Incorrect passcode!</p>
+  </div>
+
+  <!-- Confession Container -->
+  <div class="container" id="confession-container" style="display:none;">
+    <div class="line" id="typing"></div>
+    <button onclick="startTyping()">Start Typing</button>
+  </div>
+
+  <script>
+    const correctPasscode = 'April'; // password is her name
+
+    function checkPasscode() {
+      const input = document.getElementById('passcode').value;
+      if(input.trim().toLowerCase() === correctPasscode.toLowerCase()) {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('confession-container').style.display = 'block';
+      } else {
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+
+    const message = `Hi April, I just want to say that I really admire you. I don't know It'll be a cringe or uncomfy for you that I have to say this, but I like your smile and how it lift me through out the day, and it really makes me happy to see itt, specially how bubbly you are.
+I don't know if you know me, but here I am confessing my feelings. Because recently, I can't stop thinking about you, and I feel like I need to say what I feel towards you.
+I'm glad I found the courage to say this right now.
+I'm not expecting anything in return, just a genuine confession :3`;
+
+    let index = 0;
+    const typingSpeed = 100; // neutral typing speed
+
+    function startTyping() {
+      const typingElement = document.getElementById('typing');
+      typingElement.innerHTML = '';
+      index = 0;
+      typeNextChar();
+    }
+
+    function typeNextChar() {
+      if(index < message.length) {
+        document.getElementById('typing').innerHTML += message.charAt(index);
+        index++;
+        setTimeout(typeNextChar, typingSpeed);
+      }
+    }
+  </script>
+
+</body>
+</html>
